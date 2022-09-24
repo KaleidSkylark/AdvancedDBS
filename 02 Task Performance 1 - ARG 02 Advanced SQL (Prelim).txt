@@ -1,0 +1,49 @@
+--KaleidSkylark
+CREATE TABLE Students(
+  ID INT,
+  Name VARCHAR(255),
+  LeaderID INT)
+  
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (null,'Baldo',001)
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (1,'Cardo',005)
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (1,'Pedro',007)
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (1,'Luningning',009)
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (5,'Paolo',012)
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (7,'Roberto',016)
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (7,'Narciso',013)
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (9,'Jopay',031)
+INSERT INTO Students (ID,Name,LeaderID) 
+VALUES (12,'Bernardo',028) 
+INSERT INTO Students (ID,Name,LeaderID)
+VALUES (31,'Policarpio',025)
+INSERT INTO Students (ID,Name,LeaderID)
+VALUES (31,'Sisa',011)
+INSERT INTO Students (ID,Name,LeaderID)
+VALUES (28,'Reginaldo',099)
+
+GO
+
+SELECT * FROM Students
+
+GO
+
+WITH Students_Hierarchy(ID,Name,LeaderID,Ranking) AS (
+  SELECT ID,Name,LeaderID,0
+  AS Ranking FROM Students
+  WHERE ID IS NULL UNION ALL
+  SELECT X.ID,X.Name,X.LeaderID,Y.Ranking+1
+  FROM Students X INNOR JOIN Students_Hierarchy Y
+  ON Y.LeaderID = X.ID)
+
+SELECT ID,LeaderID,Name,Ranking FROM Students_Hierarchy ORDER BY Ranking;
+SELECT * FROM Students	
+
+GO
